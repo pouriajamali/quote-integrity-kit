@@ -1,0 +1,1538 @@
+{
+  "schema": "quote-integrity-literal-oracle-v1",
+  "origin": "ORIGINAL_SYNTHETIC",
+  "license": "MIT",
+  "cases": [
+    {
+      "name": "odd-cent-midpoint-is-not-fill",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "ADMIT_PROFILE",
+        "rowQuality": "PASS",
+        "coverage": "PASS",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": [],
+            "bidUnits": "510",
+            "askUnits": "511",
+            "midpoint": "5.105",
+            "bidContractCents": "51000",
+            "askContractCents": "51100"
+          }
+        ]
+      }
+    },
+    {
+      "name": "null-mark-is-allowed",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": null
+          }
+        ]
+      },
+      "expected": {
+        "decision": "ADMIT_PROFILE",
+        "rowQuality": "PASS",
+        "coverage": "PASS",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "zero-is-not-missing",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "0",
+            "ask": "0",
+            "mark": null
+          }
+        ]
+      },
+      "expected": {
+        "decision": "ADMIT_PROFILE",
+        "rowQuality": "PASS",
+        "coverage": "PASS",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": [],
+            "bidUnits": "0",
+            "askUnits": "0",
+            "midpoint": "0",
+            "bidContractCents": "0",
+            "askContractCents": "0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "stale",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:58:59Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "FAIL",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "STALE"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "freshness-boundary-inclusive",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:00Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "ADMIT_PROFILE",
+        "rowQuality": "PASS",
+        "coverage": "PASS",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "crossed",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.12",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "CROSSED"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "locked-quote-is-allowed",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.11",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "ADMIT_PROFILE",
+        "rowQuality": "PASS",
+        "coverage": "PASS",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing-bid-null",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": null,
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "MISSING_BID"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing-ask-null",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": null,
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "MISSING_ASK"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown-field",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00",
+            "unknownVendorFlag": true
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "UNKNOWN_FIELD"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "excess-precision",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.101",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "BID_PRICE_FORMAT"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "negative-option-premium",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "-1.00",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "NEGATIVE_BID"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "negative-mark",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "-1.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "NEGATIVE_MARK"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "numeric-token-is-not-string",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": 5.1,
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "FIELD_TYPE",
+              "MISSING_BID"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "not-observed-at-cutoff",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T12:00:01Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "FAIL",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "NOT_OBSERVED_AT_CUTOFF"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "event-after-observation",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:32Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "FAIL",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "EVENT_AFTER_OBSERVATION"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "future-event",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T12:00:01Z",
+            "observedAt": "2026-11-20T12:00:01Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "FAIL",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "FUTURE_EVENT",
+              "NOT_OBSERVED_AT_CUTOFF"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "expiry-equality-refused",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-30T16:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-30T16:00:00Z",
+            "observedAt": "2026-11-30T16:00:00Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "FAIL",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "EXPIRED"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "one-second-before-expiry",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-30T15:59:59Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-30T15:59:59Z",
+            "observedAt": "2026-11-30T15:59:59Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "ADMIT_PROFILE",
+        "rowQuality": "PASS",
+        "coverage": "PASS",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-calendar-date",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-02-30T12:00:00Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "FAIL",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "TIMESTAMP_INVALID"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "currency-mismatch",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "BTC",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "CURRENCY_MISMATCH"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "instrument-mismatch",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-PUT",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "INSTRUMENT_MISMATCH"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "venue-mismatch",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "REAL_EXCHANGE",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "VENUE_MISMATCH"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "price-int64-overflow",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "92233720368547758.08",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "BID_PRICE_RANGE"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "contract-premium-overflow",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "922337203685477.59",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "CONTRACT_PREMIUM_OVERFLOW"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "contract-premium-last-whole-cent",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "922337203685477.58",
+            "ask": "922337203685477.58",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "ADMIT_PROFILE",
+        "rowQuality": "PASS",
+        "coverage": "PASS",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": [],
+            "bidUnits": "92233720368547758",
+            "askUnits": "92233720368547758",
+            "midpoint": "922337203685477.58",
+            "bidContractCents": "9223372036854775800",
+            "askContractCents": "9223372036854775800"
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown-rights-hold",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "unknown",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "HOLD",
+        "rowQuality": "PASS",
+        "coverage": "PASS",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "deny-rights-reject",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "deny",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "PASS",
+        "coverage": "PASS",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "unsupported-schema",
+      "input": {
+        "schema": "quote-integrity-v2",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "fatal": "SCHEMA_UNSUPPORTED"
+      }
+    },
+    {
+      "name": "unsupported-profile",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "a-real-venue",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "fatal": "PROFILE_UNSUPPORTED"
+      }
+    },
+    {
+      "name": "no-calendar-inference",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "fatal": "EXPECTED_IDS"
+      }
+    },
+    {
+      "name": "unknown-envelope-field",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ],
+        "forceAdmit": true
+      },
+      "expected": {
+        "fatal": "ENVELOPE_FIELDS"
+      }
+    },
+    {
+      "name": "invalid-asof",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00+00:00",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "fatal": "ASOF_INVALID"
+      }
+    },
+    {
+      "name": "fractional-age",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60.5,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "fatal": "AGE_THRESHOLD"
+      }
+    },
+    {
+      "name": "missing-expected-id",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1",
+          "q2"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "PASS",
+        "coverage": "FAIL",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "unexpected-id",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q2"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "PASS",
+        "coverage": "FAIL",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "duplicate-id",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          },
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11",
+            "mark": "7.00"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "PASS",
+        "coverage": "FAIL",
+        "freshness": "PASS",
+        "rows": [
+          {
+            "decision": "ACCEPT",
+            "reasons": []
+          },
+          {
+            "decision": "ACCEPT",
+            "reasons": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing-field",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          {
+            "id": "q1",
+            "instrument": "SYNTH-20261130-C-100",
+            "venue": "FICTIONAL",
+            "currency": "USD",
+            "eventTime": "2026-11-20T11:59:30Z",
+            "observedAt": "2026-11-20T11:59:31Z",
+            "bid": "5.10",
+            "ask": "5.11"
+          }
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "MISSING_FIELD"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "not-an-object",
+      "input": {
+        "schema": "quote-integrity-v1",
+        "profile": "synthetic-european-call-v1",
+        "sourceKind": "ORIGINAL_SYNTHETIC",
+        "dataUse": "allow",
+        "asOf": "2026-11-20T12:00:00Z",
+        "maxAgeSeconds": 60,
+        "expectedIds": [
+          "q1"
+        ],
+        "quotes": [
+          null
+        ]
+      },
+      "expected": {
+        "decision": "REJECT",
+        "rowQuality": "FAIL",
+        "coverage": "FAIL",
+        "freshness": "UNKNOWN",
+        "rows": [
+          {
+            "decision": "QUARANTINE",
+            "reasons": [
+              "ROW_OBJECT"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "quote-integrity-v1",
+  "profile": "synthetic-european-call-v1",
+  "sourceKind": "ORIGINAL_SYNTHETIC",
+  "dataUse": "allow",
+  "asOf": "2026-11-20T12:00:00Z",
+  "maxAgeSeconds": 60,
+  "expectedIds": [
+    "q1"
+  ],
+  "quotes": [
+    {
+      "id": "q1",
+      "instrument": "SYNTH-20261130-C-100",
+      "venue": "FICTIONAL",
+      "currency": "USD",
+      "eventTime": "2026-11-20T11:59:30Z",
+      "observedAt": "2026-11-20T11:59:31Z",
+      "bid": "5.10",
+      "ask": "5.11",
+      "mark": "7.00"
+    }
+  ]
+}
