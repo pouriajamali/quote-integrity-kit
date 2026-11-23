@@ -1,1 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk" />
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>PouriaJamali.QuoteIntegrity</PackageId>
+    <Version>0.2.0-preview.1</Version>
+    <Authors>Pouria Jamali</Authors>
+    <Description>Bounded offline checks for an explicitly fictional European option quote profile. No pricing engine or execution guarantee.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/pouriajamali/quote-integrity-kit</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Include="../../profiles/synthetic-european-call-v1.json" Pack="true" PackagePath="profiles/" />
+    <None Include="../../docs/*.md" Pack="true" PackagePath="docs/" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="/" />
+    <None Include="../../examples/consumer/*" Pack="true" PackagePath="examples/consumer/" />
+    <None Include="../../examples/consume_report.py" Pack="true" PackagePath="examples/" />
+  </ItemGroup>
+</Project>

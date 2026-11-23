@@ -1,0 +1,31 @@
+name: Synthetic profile or contract case
+description: Propose a small reproducible case with clear conventions and rights.
+body:
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Scenario and expected result
+      description: Include the relevant profile/version and a correct control case.
+    validations:
+      required: true
+  - type: textarea
+    id: conventions
+    attributes:
+      label: Units, conventions and scope
+      description: State instrument, venue, currency, expiry/clock, multiplier and precision.
+    validations:
+      required: true
+  - type: textarea
+    id: fixture
+    attributes:
+      label: Original synthetic fixture and reproduction
+      description: Use invented or licensed minimal data; include no account data or secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: rights
+    attributes:
+      label: Fixture origin and publication rights
+      description: Distinguish the dataset grant from the software license.
+    validations:
+      required: true

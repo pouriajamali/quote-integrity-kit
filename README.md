@@ -51,6 +51,13 @@ premiums, adapter equivalence, row permutation, late-cutoff revisions and caps.
 See [P5 evidence](docs/P5-EVIDENCE.md). These are arithmetic/contract results,
 not pricing-model or speed benchmarks. [AI evaluation remains deferred](docs/P4-EVALUATION-PLAN.md).
 
+Local package: `dotnet pack src/QuoteIntegrity -c Release -o artifacts/packages`.
+See [the package example and remaining gates](docs/ROADMAP.md), the
+[C# consumer](examples/consumer/Program.cs), and the
+[Python report reader](examples/consume_report.py). Project-authored examples
+are not independent outside adoption. [Contributions](CONTRIBUTING.md) can start
+with a small original synthetic convention/fixture case.
+
 Original public synthetic material is MIT licensed and created with AI
 assistance. No real market/account data or private implementation is included.
 This checks a declared profile; it does not authenticate data, prove legal
