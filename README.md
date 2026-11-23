@@ -39,6 +39,12 @@ are separate from model validation and hosted CI. No hosted CI, downloadable
 executable release or independent adoption is claimed. See
 [P1 evidence](docs/P1-EVIDENCE.md) and [P2 evidence](docs/P2-EVIDENCE.md).
 
+The second explicit integer-cents adapter is implemented. Report-v2 records its
+source schema, and a local snapshot binds input/report/profile/code digests.
+Full shared CMP-04/05 integration remains deferred; see
+[P3 scope and migration](docs/P3-STATUS.md). Local snapshots do not claim shared
+schema conformance or data admission authority.
+
 Original public synthetic material is MIT licensed and created with AI
 assistance. No real market/account data or private implementation is included.
 This checks a declared profile; it does not authenticate data, prove legal

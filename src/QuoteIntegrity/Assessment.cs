@@ -16,7 +16,7 @@ public sealed record QuoteDecision(int Ordinal, string? Id, string Decision, str
     string? BidUnits, string? AskUnits, string? MarkUnits, string? Midpoint,
     string? BidContractCents, string? AskContractCents);
 
-public sealed record Assessment(string Schema, string Profile, string InputSha256,
+public sealed record Assessment(string Schema, string Profile, string SourceSchema, string InputSha256,
     string SourceKind, string AsOf, string Decision, string RowQuality, string Coverage,
     string Freshness, string UseDeclaration, int Accepted, int Quarantined,
     string[] CoverageReasons, QuoteDecision[] Rows, string[] Limits);
@@ -44,7 +44,9 @@ public static class Evaluator
             var root = doc.RootElement;
             CheckDuplicateProperties(root);
             ExactObject(root, EnvelopeFields);
-            if (RequiredString(root, "schema") != "quote-integrity-v1") throw new InputException("SCHEMA_UNSUPPORTED");
+            var sourceSchema = RequiredString(root, "schema");
+            if (sourceSchema is not ("quote-integrity-v1" or "quote-integrity-scaled-v1")) throw new InputException("SCHEMA_UNSUPPORTED");
+            var scaled = sourceSchema == "quote-integrity-scaled-v1";
             if (RequiredString(root, "profile") != Profile) throw new InputException("PROFILE_UNSUPPORTED");
             var source = RequiredString(root, "sourceKind");
             if (source is not ("ORIGINAL_SYNTHETIC" or "USER_SUPPLIED_UNVERIFIED")) throw new InputException("SOURCE_KIND");
@@ -65,7 +67,7 @@ public static class Evaluator
             }
             var inputRows = root.GetProperty("quotes");
             if (inputRows.ValueKind != JsonValueKind.Array || inputRows.GetArrayLength() is < 1 or > 1000) throw new InputException("ROW_COUNT");
-            var rows = inputRows.EnumerateArray().Select((r, i) => Row(r, i + 1, asOf, maxAge)).ToArray();
+            var rows = inputRows.EnumerateArray().Select((r, i) => Row(r, i + 1, asOf, maxAge, scaled)).ToArray();
             var coverageReasons = new SortedSet<string>(StringComparer.Ordinal);
             var allIds = rows.Select(r => r.Id).Where(x => x is not null).ToArray();
             if (allIds.Distinct(StringComparer.Ordinal).Count() != allIds.Length) coverageReasons.Add("DUPLICATE_ID");
@@ -78,7 +80,7 @@ public static class Evaluator
             var freshness = rows.Any(r => r.Reasons.Any(IsTemporalReason)) ? "FAIL" : acceptedIds.Count > 0 ? "PASS" : "UNKNOWN";
             var rights = use == "allow" ? "DECLARED_ALLOW" : use == "deny" ? "DECLARED_DENY" : "UNKNOWN";
             var decision = quality == "FAIL" || coverage == "FAIL" || freshness == "FAIL" || use == "deny" ? "REJECT" : use == "unknown" ? "HOLD" : "ADMIT_PROFILE";
-            return new("quote-integrity-report-v1", Profile, Convert.ToHexStringLower(SHA256.HashData(bytes)), source, asOfText,
+            return new("quote-integrity-report-v2", Profile, sourceSchema, Convert.ToHexStringLower(SHA256.HashData(bytes)), source, asOfText,
                 decision, quality, coverage, freshness, rights, rows.Count(r => r.Decision == "ACCEPT"), rows.Count(r => r.Decision != "ACCEPT"),
                 coverageReasons.ToArray(), rows,
                 ["DECLARED_CONTEXT_ONLY", "DECLARED_SET_COVERAGE_ONLY", "SOURCE_AUTHENTICITY_NOT_PROVEN", "LEGAL_RIGHTS_NOT_PROVEN", "FILL_NOT_PROVEN", "NO_PRICING_MODEL_VALIDATION"]);
@@ -96,13 +98,21 @@ public static class Evaluator
         return (long)n;
     }
 
-    private static QuoteDecision Row(JsonElement row, int ordinal, DateTimeOffset asOf, int maxAge)
+    public static long ParseScaled(string text)
+    {
+        if (text.Length is 0 or > 32 || !Regex.IsMatch(text, "\\A-?[0-9]+\\z", RegexOptions.CultureInvariant)) throw new InputException("PRICE_FORMAT");
+        if (!long.TryParse(text, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var value)) throw new InputException("PRICE_RANGE");
+        return value;
+    }
+
+    private static QuoteDecision Row(JsonElement row, int ordinal, DateTimeOffset asOf, int maxAge, bool scaled)
     {
         var reasons = new SortedSet<string>(StringComparer.Ordinal);
         if (row.ValueKind != JsonValueKind.Object) return new(ordinal, null, "QUARANTINE", ["ROW_OBJECT"], null, null, null, null, null, null);
         var names = row.EnumerateObject().Select(x => x.Name).ToHashSet(StringComparer.Ordinal);
-        if (names.Except(RowFields).Any()) reasons.Add("UNKNOWN_FIELD");
-        if (RowFields.Except(names).Any()) reasons.Add("MISSING_FIELD");
+        var fields = scaled ? RowFields.Select(x => x is "bid" or "ask" or "mark" ? x + "Units" : x).ToArray() : RowFields;
+        if (names.Except(fields).Any()) reasons.Add("UNKNOWN_FIELD");
+        if (fields.Except(names).Any()) reasons.Add("MISSING_FIELD");
         string? Field(string name)
         {
             if (!row.TryGetProperty(name, out var element) || element.ValueKind == JsonValueKind.Null) return null;
@@ -124,11 +134,11 @@ public static class Evaluator
         if (eventValid && (asOf - eventTime).TotalSeconds > maxAge) reasons.Add("STALE");
         long? Price(string name, bool required)
         {
-            var value = Field(name);
+            var value = Field(scaled ? name + "Units" : name);
             if (value is null) { if (required) reasons.Add("MISSING_" + name.ToUpperInvariant()); return null; }
             try
             {
-                var price = ParsePrice(value);
+                var price = scaled ? ParseScaled(value) : ParsePrice(value);
                 if (price < 0) { reasons.Add("NEGATIVE_" + name.ToUpperInvariant()); return null; }
                 if (required)
                 {

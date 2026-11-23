@@ -2,10 +2,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <AssemblyName>quote-integrity</AssemblyName>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../QuoteIntegrity/QuoteIntegrity.csproj" />
     <EmbeddedResource Include="../../fixtures/demo.json" LogicalName="demo.json" />
+    <EmbeddedResource Include="../../profiles/synthetic-european-call-v1.json" LogicalName="profile.json" />
   </ItemGroup>
 </Project>
