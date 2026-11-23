@@ -1,0 +1,23 @@
+{
+  "profile": "synthetic-european-call-v1",
+  "instrument": "SYNTH-20261130-C-100",
+  "venue": "FICTIONAL",
+  "underlying": "SYNTH",
+  "currency": "USD",
+  "exercise": "EUROPEAN",
+  "settlement": "CASH",
+  "expiry": "2026-11-30T16:00:00Z",
+  "strike": "100.00",
+  "contractMultiplier": 100,
+  "quoteBasis": "PREMIUM_PER_UNDERLYING_UNIT",
+  "priceDecimals": 2,
+  "scaledIntegerType": "SIGNED_INT64",
+  "timestampFormat": "yyyy-MM-ddTHH:mm:ssZ",
+  "clock": "DECLARED_UTC_SECONDS",
+  "freshnessBasis": "EVENT_TIME_AT_DECLARED_ASOF",
+  "expiryRule": "ASOF_AND_EVENT_STRICTLY_BEFORE_EXPIRY",
+  "payoffDescription": "100 * max(S_T - 100 USD, 0); description only, no payoff engine",
+  "fixtureOrigin": "ORIGINAL_INVENTED_SYNTHETIC",
+  "fixtureLicense": "MIT",
+  "realMarketData": false
+}
