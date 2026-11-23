@@ -45,6 +45,12 @@ Full shared CMP-04/05 integration remains deferred; see
 [P3 scope and migration](docs/P3-STATUS.md). Local snapshots do not claim shared
 schema conformance or data admission authority.
 
+Numerical checks compare1072 parser vectors to an independent Python Decimal
+reference with zero tolerance, plus1000 paired quote amounts/midpoints/contract
+premiums, adapter equivalence, row permutation, late-cutoff revisions and caps.
+See [P5 evidence](docs/P5-EVIDENCE.md). These are arithmetic/contract results,
+not pricing-model or speed benchmarks. [AI evaluation remains deferred](docs/P4-EVALUATION-PLAN.md).
+
 Original public synthetic material is MIT licensed and created with AI
 assistance. No real market/account data or private implementation is included.
 This checks a declared profile; it does not authenticate data, prove legal

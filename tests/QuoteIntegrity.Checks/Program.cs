@@ -1,7 +1,28 @@
 using System.Text;
 using System.Text.Json;
+using System.Globalization;
 using QuoteIntegrity;
 
+if (args is ["--numeric", var numericPath])
+{
+    using var vectors = JsonDocument.Parse(File.ReadAllBytes(numericPath));
+    var count = 0;
+    foreach (var v in vectors.RootElement.GetProperty("vectors").EnumerateArray())
+    {
+        var input = v.GetProperty("input").GetString()!;
+        var adapter = v.GetProperty("adapter").GetString();
+        try
+        {
+            var actual = adapter == "decimal" ? Evaluator.ParsePrice(input) : Evaluator.ParseScaled(input);
+            if (v.TryGetProperty("error", out _)) throw new Exception("Expected parser refusal");
+            Equal(v.GetProperty("units").GetString(), actual.ToString(CultureInfo.InvariantCulture), "independent numeric reference");
+        }
+        catch (InputException e) when (v.TryGetProperty("error", out var error) && error.GetString() == e.Code) { }
+        count++;
+    }
+    Console.WriteLine($"Independent Decimal/Int64 reference: {count}/{count} passed; zero tolerance; no speed claim");
+    return 0;
+}
 if (args.Length != 1) { Console.Error.WriteLine("Usage: checks <literal-corpus.json>"); return 1; }
 using var corpus = JsonDocument.Parse(File.ReadAllBytes(args[0]));
 var cases = corpus.RootElement.GetProperty("cases");
